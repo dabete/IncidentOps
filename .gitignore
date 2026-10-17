@@ -1,0 +1,78 @@
+# ==========================================
+# 1. Secrets & Credentials (NEVER COMMIT)
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service_account.json
+
+# ==========================================
+# 2. Python & Virtual Environments
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# ==========================================
+# 3. Model Weights & Hugging Face Cache
+# ==========================================
+# sentence-transformers downloads weights locally (~100MB-500MB)
+models/
+.cache/
+hf_cache/
+
+# ==========================================
+# 4. Raw Large Data & Logs
+# ==========================================
+# Never commit gigabyte log files or database dumps to GitHub
+data/raw/
+*.log
+*.tar.gz
+*.zip
+*.csv
+# Keep tracking your curated runbooks:
+!data/runbooks/*.md
+
+# ==========================================
+# 5. Database & Docker Volumes
+# ==========================================
+# If mounting Postgres/pgvector locally in Docker
+pgdata/
+postgres_data/
+
+# ==========================================
+# 6. Go (for your Week 2 MCP Server)
+# ==========================================
+/bin/
+bin/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/mcp-server/bin/
+
+# ==========================================
+# 7. IDE & OS Noise
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
