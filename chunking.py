@@ -1,14 +1,34 @@
-# chunking is done in python no external libararies i think
-
-log = """
-17/06/09 20:10:41 ERROR Executor: Task 142 in stage 3.0 failed on mesos-slave-07:55904
-Traceback request_id=550e8400-e29b-41d4-a716-446655440000 at 0x7ffee3b
-java.io.IOException: Failed to connect to 10.0.4.12:50010
-18/11/15 08:42:19 ERROR Executor: Task 899 in stage 3.0 failed on mesos-slave-19:42100
-Traceback request_id=a1b2c3d4-e5f6-7890-abcd-ef1234567890 at 0x104bc8a
-java.io.IOException: Failed to connect to 192.168.1.45:8080
-"""
+import re
 
 # split a log or stack trace into one chunk per exception block
+def chunk_log(logs):
+    # splits by exception blocks using a regex
+    EXCEPTION_REGEX = (
+        r"(?m)^.*(?:ERROR|WARN|Exception|Error).*$\n"
+        r"(?:^[a-zA-Z0-9_$.]+(?:Exception|Error):?.*$\n)?"
+        r"(?:^[ \t]+at .*$\n?|^Caused by:.*$\n?)*"
+    )
+    p = re.compile(EXCEPTION_REGEX)
+    matches = p.findall(logs)
+    chunks = []
 
+    for chunk in matches:
+        if chunk.strip():
+            chunks.append(chunk.strip())
+
+    return chunks
+
+# assumes structured markdown file
 # split a runbook into one chunk per heading. Keep each chunk under the model's limit
+def chunk_runbook(runbook):
+    # split along ## - use a regex for that
+    HEADING_REGEX = r"(?m)(?=^#{1,3}\s)"
+    p = re.compile(HEADING_REGEX)
+    chunks = []
+    split_runbook = p.split(runbook)
+    for chunk in split_runbook:
+        if chunk.strip():
+            chunks.append(chunk.strip())
+
+    return chunks
+
