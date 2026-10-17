@@ -5,7 +5,7 @@ from ingest import ingest as ingest_func
 
 class SearchModel(BaseModel):
     log: str
-    k: int | None = 3
+    k: int = 3
 
 class IngestModel(BaseModel):
     path: str
